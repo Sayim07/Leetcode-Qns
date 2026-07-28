@@ -1,41 +1,18 @@
 #include <stdlib.h>
 
-typedef struct {
-    int value;
-    int index;
-} Pair;
-
-int compare(const void *a, const void *b) {
-    Pair *p1 = (Pair *)a;
-    Pair *p2 = (Pair *)b;
-
-    if (p1->value < p2->value) return -1;
-    if (p1->value > p2->value) return 1;
-    return 0;
-}
-
-int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-    Pair *arr = (Pair *)malloc(numsSize * sizeof(Pair));
-
-    for (int i = 0; i < numsSize; i++) {
-        arr[i].value = nums[i];
-        arr[i].index = i;
-    }
-
-    qsort(arr, numsSize, sizeof(Pair), compare);
-
+int* twoSum(int* numbers, int numbersSize, int target, int* returnSize) {
     int left = 0;
-    int right = numsSize - 1;
+    int right = numbersSize - 1;
+
+    *returnSize = 2;
+    int *ans = (int *)malloc(2 * sizeof(int));
 
     while (left < right) {
-        int sum = arr[left].value + arr[right].value;
+        int sum = numbers[left] + numbers[right];
 
         if (sum == target) {
-            int *ans = (int *)malloc(2 * sizeof(int));
-            ans[0] = arr[left].index;
-            ans[1] = arr[right].index;
-            *returnSize = 2;
-            free(arr);
+            ans[0] = left + 1;   // Convert to 1-based indexing
+            ans[1] = right + 1;
             return ans;
         }
         else if (sum < target) {
@@ -46,6 +23,5 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
         }
     }
 
-    free(arr);
     return NULL;
 }
